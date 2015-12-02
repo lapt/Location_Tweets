@@ -38,10 +38,10 @@ BD_DATA = "data/tmp/"
 users = defaultdict(lambda: {'followers': 0})
 MIN_TWEETS = 3000
 # Twitter API credentials
-consumer_key = "r7ZeHCxlFMWEz5r41Fvfr725d"
-consumer_secret = "EkxgeVdnSqn4A90rbc2oypitixb1wBh0DX1fuP7F8Q8gtRjovV"
-access_key = "2559575756-w3KfDnUaF7bRb1zYn5JTh3T5tCBSoMSjwNuwgyc"
-access_secret = "Vm2CDzis95HozKUWX2hWbzpgAWoKEVcgtoOm7RjSOtx7E"
+consumer_key = "dDA0nZHAw5mMWZt4YdVg4Uz1C"
+consumer_secret = "YpQq0KI3hbR24rBmCHgwojPMdfUBP3WFhHKInoqjqCt7l4ZaoE"
+access_key = "2559575756-AYu7FySmFcTGCP69cNr1YF0k0oJJySB5GKZdMTd"
+access_secret = "MFyWfTO8nkTI03Y6cMh5oDnIJJzYxrvdbnRwt16CPdTZy"
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
@@ -66,11 +66,11 @@ def set_chile_user(gdb, id_user, screen_name):
 
 
 def getUserNodeById(gdb, id):
-    query = "MATCH (n:User)WHERE n.id={id} RETURN n LIMIT 25"
+    query = "MATCH (n:Chile) WHERE n.id={id} RETURN n LIMIT 25"
     param = {'id': id}
     results = gdb.query(query, params=param, data_contents=True)
-    if results.rows is not None:
-        u = results.rows[0][0]
+
+    return results.rows[0][0]
 
 
 def get_connection():
@@ -380,8 +380,8 @@ def get_tweets(connection):
 def prueba():
     gdb = get_conecction_neo()
 
-    set_chile_user(gdb, 2319825218, 'luis2borramne')
+    print getUserNodeById(gdb, 207468255)
 
 
 if __name__ == '__main__':
-    main()
+    prueba()
