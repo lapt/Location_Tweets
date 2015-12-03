@@ -7,6 +7,20 @@ from neo4jrestclient import exceptions
 BD_DATA = "data/tmp/"
 
 
+def set_chile_user(gdb, id_user, screen_name):
+    with gdb.transaction(for_query=True) as tx:
+        try:
+            query = "MATCH(n:User) where n.id={id} set n+={region:'Chile', screen_name: {sn}} " \
+                    "set n.chile=true remove n:Extranjero set n:Chile;"
+            param = {'id': id_user, 'sn': screen_name}
+            gdb.query(query, params=param)
+            return "Victoria!!!"
+        except exceptions.StatusException as e:
+            print "Error in update user: " + e.result
+            tx.rorollback()
+            return "Derrota !!! "
+
+
 def getUserNodeById(gdb, id):
     try:
         while True:
@@ -26,10 +40,8 @@ def main():
     print getUserNodeById(gdb, 207468255)
 
 def prueba():
-    """
 
-    :rtype : object
-    """
-    return None, 'Luis', None
+    gdb = get_conecction_neo()
+    print set_chile_user(gdb, 207468255, 'pablitocachureo')
 if __name__ == '__main__':
-    main()
+    prueba()
